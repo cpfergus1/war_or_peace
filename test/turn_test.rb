@@ -86,6 +86,12 @@ class TestTurn <Minitest::Test
     @turn.award_spoils(winner)
     assert_equal [@card2, @card5, @card8, @card1, @card3], @player1.deck.cards
     assert_equal [@card4,@card6,@card7], @player2.deck.cards
+
+    winner = @turnmut.winner
+    @turnmut.pile_of_cards
+    @turnmut.award_spoils(winner)
+    assert_equal [@card16], @playermut1.deck.cards
+    assert_equal [@card15], @playermut2.deck.cards
   end
 
 end

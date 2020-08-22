@@ -23,4 +23,5 @@ class TestStart <Minitest::Test
 
   def test_initiate
     assert_equal '*~*~*~* Aurora has won the game! *~*~*~*' , @start.initiate
+  end
 end

@@ -58,6 +58,10 @@ class Turn
   end
 
   def award_spoils(to_winner)
-    (to_winner.deck.add_card(spoils_of_war)).flatten
+    if to_winner == "No Winner"
+      ''
+    else
+      (to_winner.deck.add_card(spoils_of_war)).flatten!
+    end
   end
 end
