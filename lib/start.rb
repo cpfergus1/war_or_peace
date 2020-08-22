@@ -39,43 +39,39 @@ class Start
     player1 = Player.new('Megan',deck1)
     player2 = Player.new('Aurora', deck2)
     i=1
-    while i <= 1000001
+    loop do
       if i > 1000000
         p '---- DRAW ----'
         break
-      elsif player1.has_lost? || (player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0) && player1.deck.cards.size < 3)
+      elsif player1.has_lost?
         p "*~*~*~* #{player2.name} has won the game! *~*~*~*"
         break
-      elsif player2.has_lost? || (player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0) && player2.deck.cards.size < 3)
+      elsif player2.has_lost?
         p "*~*~*~* #{player1.name} has won the game! *~*~*~*"
         break
       end
-      player1.deck.cards.shuffle!
-      player2.deck.cards.shuffle!
       turn = Turn.new(player1,player2)
+      if (player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0) && player1.deck.cards[2].nil?)
+        p "*~*~*~* #{player2.name} has won the game! *~*~*~*"
+        break
+      elsif (player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0) && player2.deck.cards[2].nil?)
+        p "*~*~*~* #{player1.name} has won the game! *~*~*~*"
+        break
+      end
       turnwinner = turn.winner
       case turn.type
       when :mutually_assured_destruction
         turn.pile_of_cards
-        p "Turn #{i}: *mutually assured destruction* 6 cards removed from play"
+        puts "Turn #{i}: *mutually assured destruction* 6 cards removed from play"
         turn.award_spoils(turnwinner)
-        print "#{player1.name} has #{player1.deck.cards.length} cards"
-        print "  #{player2.name} has #{player2.deck.cards.length} cards"
-        p ""
       when :war
         turn.pile_of_cards
-        p "Turn #{i}: WAR - #{turnwinner.name} won #{turn.spoils_of_war.size}"
+        puts "Turn #{i}: WAR - #{turnwinner.name} won #{turn.spoils_of_war.size}"
         turn.award_spoils(turnwinner)
-        print "#{player1.name} has #{player1.deck.cards.length} cards"
-        print "  #{player2.name} has #{player2.deck.cards.length} cards"
-        p ""
       when :basic
         turn.pile_of_cards
-        p "Turn #{i}: #{turnwinner.name} won #{turn.spoils_of_war.size}"
+        puts "Turn #{i}: #{turnwinner.name} won #{turn.spoils_of_war.size}"
         turn.award_spoils(turnwinner)
-        print "#{player1.name} has #{player1.deck.cards.length} cards"
-        print "  #{player2.name} has #{player2.deck.cards.length} cards"
-        p ""
       end
       i += 1
     end
