@@ -9,6 +9,6 @@ class Player
     @deck = deck
   end
   def has_lost?
-    deck.cards == []
+    deck.cards == [] || deck.cards.nil?
   end
 end
