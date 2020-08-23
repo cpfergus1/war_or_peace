@@ -30,7 +30,7 @@ class Start
 
   def initiate
     #require 'pry' ; binding.pry
-    generate = Card_Generator.new
+    generate = Card_Generator.new("cards.txt")
     cards = generate.cards
     cards = cards.shuffle
     split1,split2 = cards.each_slice((cards.size/2).round).to_a
@@ -49,12 +49,15 @@ class Start
       elsif player2.has_lost?
         p "*~*~*~* #{player1.name} has won the game! *~*~*~*"
         break
+      elsif i%1000 == 0
+        player1.deck.cards.shuffle!
+        player2.deck.cards.shuffle!
       end
       turn = Turn.new(player1,player2)
-      if (player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0) && player1.deck.cards[2].nil?)
+      if player1.deck.cards[2].nil? && (player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0))
         p "*~*~*~* #{player2.name} has won the game! *~*~*~*"
         break
-      elsif (player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0) && player2.deck.cards[2].nil?)
+      elsif player2.deck.cards[2].nil? && (player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0))
         p "*~*~*~* #{player1.name} has won the game! *~*~*~*"
         break
       end
